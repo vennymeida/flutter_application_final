@@ -10,85 +10,77 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Login Page'),
+          centerTitle: true,
+          title: const Text('Login Page'),
         ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              'Login',
-              style: TextStyle(
-                  fontSize: 35,
-                  color: Colors.blue,
-                  fontWeight: FontWeight.bold),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 30),
-              child: Form(
+        body: Container(
+          // decoration: BoxDecoration(color: Colors.lightBlue),
+          width: double.infinity,
+          padding: EdgeInsets.all(20),
+          child: Column(
+            //mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 70.0,
+                    backgroundImage: NetworkImage(
+                        'https://bantennet.com/wp-content/uploads/2022/05/flowers-gd7a30a6b3_1280.jpg')),
+              ),
+              Expanded(
                 child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: TextFormField(
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                          labelText: 'Email',
-                          hintText: 'Enter Email',
-                          prefixIcon: new Icon(Icons.email),
-                          border: OutlineInputBorder(),
-                        ),
-                        onChanged: (String value) {},
-                        validator: ((value) {
-                          return value!.isEmpty ? 'Please Enter Email' : null;
-                        }),
+                    TextFormField(
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                        labelText: 'Email',
+                        hintText: 'Enter Email',
+                        prefixIcon: new Icon(Icons.email),
+                        border: OutlineInputBorder(),
                       ),
+                      onChanged: (String value) {},
+                      validator: ((value) {
+                        return value!.isEmpty ? 'Please Enter Email' : null;
+                      }),
                     ),
                     SizedBox(
-                      height: 30,
+                      height: 20,
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 15),
-                      child: TextFormField(
-                        keyboardType: TextInputType.visiblePassword,
-                        decoration: InputDecoration(
-                          labelText: 'Password',
-                          hintText: 'Enter Password',
-                          prefixIcon: new Icon(Icons.password),
-                          border: OutlineInputBorder(),
-                        ),
-                        onChanged: (String value) {},
-                        validator: ((value) {
-                          return value!.isEmpty
-                              ? 'Please Enter Password'
-                              : null;
-                        }),
+                    TextFormField(
+                      keyboardType: TextInputType.visiblePassword,
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        hintText: 'Enter Password',
+                        prefixIcon: new Icon(Icons.password),
+                        border: OutlineInputBorder(),
                       ),
+                      onChanged: (String value) {},
+                      validator: ((value) {
+                        return value!.isEmpty ? 'Please Enter Password' : null;
+                      }),
                     ),
                     SizedBox(
-                      height: 30,
+                      height: 20,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30),
-                      child: MaterialButton(
-                        minWidth: double.infinity,
+                    Container(
+                      width: double.infinity,
+                      child: ElevatedButton(
                         onPressed: () {},
                         child: Text('Login'),
-                        color: Colors.blue,
-                        textColor: Colors.white,
                       ),
                     ),
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

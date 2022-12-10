@@ -22,6 +22,10 @@ class MyApp extends StatelessWidget {
         body: new ListView(
           children: <Widget>[
             new MyListView(),
+            new MyListView(),
+            new MyListView(),
+            new MyListView(),
+            new MyListView(),
           ],
         ),
       ),
