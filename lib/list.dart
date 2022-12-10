@@ -25,10 +25,39 @@ class MyApp extends StatelessWidget {
             new MyListView(),
             new MyListView(),
             new MyListView(),
-            new MyListView(),
+            pENI(),
+            oKE(),
           ],
         ),
       ),
+    );
+  }
+}
+
+class pENI extends StatelessWidget {
+  const pENI({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      child: Text('peniku'),
+    );
+  }
+}
+
+class oKE extends StatelessWidget {
+  const oKE({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      child: Text('oKE'),
     );
   }
 }

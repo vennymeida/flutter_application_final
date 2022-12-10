@@ -1,28 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_final/login.dart';
+import 'package:flutter_application_final/registrasi.dart';
 
-class Register extends StatefulWidget {
-  const Register({super.key});
+class Login extends StatefulWidget {
+  const Login({super.key});
   @override
-  State<Register> createState() => _Register();
+  State<Login> createState() => _Login();
 }
 
-class _Register extends State<Register> {
+class _Login extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.white,
         appBar: AppBar(
           centerTitle: true,
-          title: const Text("Register Page"),
-          backgroundColor: const Color(0xFF0000ff),
+          title: const Text('Login Page'),
         ),
         body: Container(
           width: double.infinity,
@@ -37,25 +34,8 @@ class _Register extends State<Register> {
                         'https://bantennet.com/wp-content/uploads/2022/05/flowers-gd7a30a6b3_1280.jpg')),
               ),
               Expanded(
-                flex: 2,
                 child: Column(
                   children: [
-                    TextFormField(
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                        labelText: 'Nama',
-                        hintText: 'Enter Nama',
-                        prefixIcon: new Icon(Icons.email),
-                        border: OutlineInputBorder(),
-                      ),
-                      onChanged: (String value) {},
-                      validator: ((value) {
-                        return value!.isEmpty ? 'Please Enter Nama' : null;
-                      }),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
                     TextFormField(
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
@@ -65,9 +45,9 @@ class _Register extends State<Register> {
                         border: OutlineInputBorder(),
                       ),
                       onChanged: (String value) {},
-                      validator: ((value) {
-                        return value!.isEmpty ? 'Please Enter Email' : null;
-                      }),
+                      // validator: ((value) {
+                      //   return value!.isEmpty ? 'Please Enter Email' : null;
+                      // }),
                     ),
                     const SizedBox(
                       height: 20,
@@ -81,9 +61,9 @@ class _Register extends State<Register> {
                         border: OutlineInputBorder(),
                       ),
                       onChanged: (String value) {},
-                      validator: ((value) {
-                        return value!.isEmpty ? 'Please Enter Password' : null;
-                      }),
+                      // validator: ((value) {
+                      //   return value!.isEmpty ? 'Please Enter Password' : null;
+                      // }),
                     ),
                     const SizedBox(
                       height: 20,
@@ -92,7 +72,7 @@ class _Register extends State<Register> {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {},
-                        child: const Text('Register'),
+                        child: const Text('Login'),
                       ),
                     ),
                     SizedBox(
@@ -102,11 +82,11 @@ class _Register extends State<Register> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) {
-                              return Login();
+                              return Register();
                             }),
                           );
                         },
-                        child: const Text('Login'),
+                        child: const Text('Register'),
                       ),
                     ),
                   ],
