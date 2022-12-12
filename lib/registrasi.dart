@@ -82,9 +82,6 @@ class _Register extends State<Register> {
                       onChanged: ((value) {
                         _name = value;
                       }),
-                      // validator: ((value) {
-                      //   return value!.isEmpty ? 'Please Enter Nama' : null;
-                      // }),
                     ),
                     const SizedBox(
                       height: 20,
@@ -100,9 +97,6 @@ class _Register extends State<Register> {
                       onChanged: ((value) {
                         _email = value;
                       }),
-                      // validator: ((value) {
-
-                      // }),
                     ),
                     const SizedBox(
                       height: 20,
@@ -118,9 +112,6 @@ class _Register extends State<Register> {
                       onChanged: ((value) {
                         _password = value;
                       }),
-                      // validator: ((value) {
-                      //   return value!.isEmpty ? 'Please Enter Password' : null;
-                      // }),
                     ),
                     const SizedBox(
                       height: 20,
