@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_final/login.dart';
+import 'package:flutter_application_final/list.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: {
         "/": (context) => const Login(),
+        "/list": (context) => const List(),
       },
       title: 'Flutter Demo',
       theme: ThemeData(

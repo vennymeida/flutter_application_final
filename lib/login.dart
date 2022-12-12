@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_final/registrasi.dart';
+import 'package:flutter_application_final/service/loginservice.dart';
+import 'package:flutter_application_final/service/global.dart';
+import 'package:flutter_application_final/list.dart';
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -9,6 +15,30 @@ class Login extends StatefulWidget {
 
 class _Login extends State<Login> {
   @override
+  String _email = '';
+  String _password = '';
+
+  loginPressed() async {
+    if (_email.isNotEmpty && _password.isNotEmpty) {
+      http.Response response = await AuthServices.login(_email, _password);
+      Map responseMap = jsonDecode(response.body);
+      print(response.body);
+      if (response.statusCode == 200) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => const List(),
+          ),
+          (route) => false,
+        );
+      } else {
+        errorSnackBar(context, 'wrong email or password');
+      }
+    } else {
+      errorSnackBar(context, 'enter all required fields');
+    }
+  }
+
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
@@ -44,10 +74,10 @@ class _Login extends State<Login> {
                         prefixIcon: new Icon(Icons.email),
                         border: OutlineInputBorder(),
                       ),
-                      onChanged: (String value) {},
-                      // validator: ((value) {
-                      //   return value!.isEmpty ? 'Please Enter Email' : null;
-                      // }),
+                      // onChanged: (String value) {},
+                      onChanged: ((value) {
+                        _email = value;
+                      }),
                     ),
                     const SizedBox(
                       height: 20,
@@ -60,10 +90,10 @@ class _Login extends State<Login> {
                         prefixIcon: Icon(Icons.password),
                         border: OutlineInputBorder(),
                       ),
-                      onChanged: (String value) {},
-                      // validator: ((value) {
-                      //   return value!.isEmpty ? 'Please Enter Password' : null;
-                      // }),
+                      // onChanged: (String value) {},
+                      onChanged: ((value) {
+                        _password = value;
+                      }),
                     ),
                     const SizedBox(
                       height: 20,
@@ -71,7 +101,7 @@ class _Login extends State<Login> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: loginPressed,
                         child: const Text('Login'),
                       ),
                     ),

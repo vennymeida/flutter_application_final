@@ -1,13 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_application_final/service/loginservice.dart';
+import 'package:flutter_application_final/login.dart';
+import 'dart:convert';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class List extends StatefulWidget {
+  const List({super.key});
 
   @override
+  State<List> createState() => _ListState();
+}
+
+class _ListState extends State<List> {
+  @override
+  logoutPressed() async {
+    http.Response response = await AuthServices.logout();
+
+    if (response.statusCode == 204) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => const Login(),
+        ),
+        (route) => false,
+      );
+    } else {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => const List(),
+          ));
+    }
+  }
+
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'ListView',
@@ -19,18 +44,37 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.blue,
           title: Text('ListView'),
         ),
-        body: new ListView(
-          children: <Widget>[
-            new MyListView(),
-            new MyListView(),
-            new MyListView(),
-            new MyListView(),
-            pENI(),
-            oKE(),
+        body: Column(
+          children: [
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: logoutPressed,
+                child: const Text('Logout'),
+              ),
+            ),
+            Expanded(
+              child: new ListView(
+                children: <Widget>[
+                  new MyListView(),
+                  new MyListView(),
+                  new MyListView(),
+                  new MyListView(),
+                  pENI(),
+                  oKE(),
+                ],
+              ),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    throw UnimplementedError();
   }
 }
 
