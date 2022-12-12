@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_final/login.dart';
+import 'package:flutter_application_final/service/global.dart';
+import 'package:flutter_application_final/service/loginservice.dart';
+import 'package:http/http.dart' as http;
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -8,6 +13,32 @@ class Register extends StatefulWidget {
 }
 
 class _Register extends State<Register> {
+  String _name = '';
+  String _email = '';
+  String _password = '';
+
+  registerPressed() async {
+    if (_email.isNotEmpty && _password.isNotEmpty) {
+      http.Response response =
+          await AuthServices.register(_name, _email, _password);
+      Map responseMap = jsonDecode(response.body);
+      print(response.body);
+      if (response.statusCode == 200) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => const Login(),
+          ),
+          (route) => false,
+        );
+      } else {
+        errorSnackBar(context, 'wrong email or password');
+      }
+    } else {
+      errorSnackBar(context, 'enter all required fields');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -48,10 +79,12 @@ class _Register extends State<Register> {
                         prefixIcon: new Icon(Icons.email),
                         border: OutlineInputBorder(),
                       ),
-                      onChanged: (String value) {},
-                      validator: ((value) {
-                        return value!.isEmpty ? 'Please Enter Nama' : null;
+                      onChanged: ((value) {
+                        _name = value;
                       }),
+                      // validator: ((value) {
+                      //   return value!.isEmpty ? 'Please Enter Nama' : null;
+                      // }),
                     ),
                     const SizedBox(
                       height: 20,
@@ -64,10 +97,12 @@ class _Register extends State<Register> {
                         prefixIcon: new Icon(Icons.email),
                         border: OutlineInputBorder(),
                       ),
-                      onChanged: (String value) {},
-                      validator: ((value) {
-                        return value!.isEmpty ? 'Please Enter Email' : null;
+                      onChanged: ((value) {
+                        _email = value;
                       }),
+                      // validator: ((value) {
+
+                      // }),
                     ),
                     const SizedBox(
                       height: 20,
@@ -80,10 +115,12 @@ class _Register extends State<Register> {
                         prefixIcon: Icon(Icons.password),
                         border: OutlineInputBorder(),
                       ),
-                      onChanged: (String value) {},
-                      validator: ((value) {
-                        return value!.isEmpty ? 'Please Enter Password' : null;
+                      onChanged: ((value) {
+                        _password = value;
                       }),
+                      // validator: ((value) {
+                      //   return value!.isEmpty ? 'Please Enter Password' : null;
+                      // }),
                     ),
                     const SizedBox(
                       height: 20,
@@ -91,7 +128,9 @@ class _Register extends State<Register> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          registerPressed();
+                        },
                         child: const Text('Register'),
                       ),
                     ),

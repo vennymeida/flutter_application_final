@@ -69,6 +69,7 @@ class AuthServices {
       "email": email,
       "password": password,
       "password_confirmation": password,
+      "device_name": "android",
     };
     var body = json.encode(data);
     var url = Uri.parse(baseUrl + 'auth/register');
@@ -84,17 +85,6 @@ class AuthServices {
       headers: header1,
       body: body,
     );
-
-    // Map<String, dynamic> responseJson = json.decode(response.body);
-
-    // // save token use shared preferences
-    // if (response.statusCode == 200) {
-    //   SharedPreferences sp = await SharedPreferences.getInstance();
-
-    //   sp.setString("token", responseJson['token']);
-
-    //   print(sp.getString("token"));
-    // }
 
     return response;
   }
