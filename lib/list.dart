@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_final/edit.dart';
+import 'package:flutter_application_final/service/global.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_application_final/service/loginservice.dart';
 import 'package:flutter_application_final/login.dart';
@@ -37,6 +38,13 @@ class _ListKategoriState extends State<ListKategori> {
     }
   }
 
+  doAddCategory() async {
+    final name = txtAddCategory.text;
+    final response = await CRUD().addCategory(name);
+    print(response.body);
+    Navigator.pushNamed(context, "/main");
+  }
+
   @override
   void initState() {
     super.initState();
@@ -54,6 +62,7 @@ class _ListKategoriState extends State<ListKategori> {
     });
   }
 
+  final TextEditingController txtAddCategory = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -78,6 +87,7 @@ class _ListKategoriState extends State<ListKategori> {
                       Expanded(
                         flex: 2,
                         child: TextFormField(
+                          controller: txtAddCategory,
                           decoration: InputDecoration(
                             labelText: 'Masukkan Kategori',
                           ),
@@ -86,7 +96,9 @@ class _ListKategoriState extends State<ListKategori> {
                       Expanded(
                         flex: 1,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            doAddCategory();
+                          },
                           child: const Text('Add'),
                         ),
                       ),
