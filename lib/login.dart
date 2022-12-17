@@ -27,7 +27,7 @@ class _Login extends State<Login> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (BuildContext context) => const List(),
+            builder: (BuildContext context) => const ListKategori(),
           ),
           (route) => false,
         );
@@ -43,7 +43,7 @@ class _Login extends State<Login> {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.lightGreen,
       ),
       home: Scaffold(
         resizeToAvoidBottomInset: false,

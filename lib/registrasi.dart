@@ -45,7 +45,7 @@ class _Register extends State<Register> {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.lightGreen,
       ),
       home: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -53,7 +53,7 @@ class _Register extends State<Register> {
         appBar: AppBar(
           centerTitle: true,
           title: const Text("Register Page"),
-          backgroundColor: const Color(0xFF0000ff),
+          backgroundColor: Color.fromARGB(165, 0, 255, 0),
         ),
         body: Container(
           width: double.infinity,

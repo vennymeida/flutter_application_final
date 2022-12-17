@@ -4,16 +4,19 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_application_final/service/loginservice.dart';
 import 'package:flutter_application_final/login.dart';
 import 'dart:convert';
+import 'model/category_model.dart';
 
-class List extends StatefulWidget {
-  const List({super.key});
+class ListKategori extends StatefulWidget {
+  const ListKategori({super.key});
 
   @override
-  State<List> createState() => _ListState();
+  State<ListKategori> createState() => _ListKategoriState();
 }
 
-class _ListState extends State<List> {
-  @override
+class _ListKategoriState extends State<ListKategori> {
+  List listCategory = [];
+  String name = '';
+
   logoutPressed() async {
     http.Response response = await AuthServices.logout();
 
@@ -29,133 +32,160 @@ class _ListState extends State<List> {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (BuildContext context) => const List(),
+            builder: (BuildContext context) => const ListKategori(),
           ));
     }
   }
 
+  @override
+  void initState() {
+    super.initState();
+    getKategori();
+  }
+
+  getKategori() async {
+    final response = await AuthServices().getKategori();
+    var dataResponse = jsonDecode(response.body);
+    setState(() {
+      var listRespon = dataResponse['data'];
+      for (var i = 0; i < listRespon.length; i++) {
+        listCategory.add(Category.fromJson(listRespon[i]));
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'ListView',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.lightGreen,
         ),
         home: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.blue,
-            title: Text('ListView'),
-          ),
-          body: Container(
-            child: Column(children: [
-              Text('List Kategori'),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Masukkan Kategori',
-                      ),
-                    ),
+            appBar: AppBar(
+              backgroundColor: Colors.lightGreen,
+              title: Text('ListView'),
+            ),
+            body: Container(
+                margin: EdgeInsets.all(20),
+                child: Column(children: [
+                  Text(
+                    'List Kategori',
+                    style: TextStyle(fontSize: 30),
                   ),
-                  Expanded(
-                    flex: 1,
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Masukkan Kategori',
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          child: const Text('Add'),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
-                      child: const Text('Add'),
+                      onPressed: logoutPressed,
+                      child: const Text('Logout'),
                     ),
                   ),
-                ],
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: logoutPressed,
-                  child: const Text('Logout'),
-                ),
-              ),
-              Expanded(
-                  child: ListView(
-                children: [
-                  Dismissible(
-                    key: UniqueKey(),
-                    background: Container(
-                      color: Colors.blue,
-                      child: Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: Row(
-                          children: const <Widget>[
-                            Icon(Icons.favorite, color: Colors.white),
-                            Text('Edit', style: TextStyle(color: Colors.white)),
-                          ],
-                        ),
-                      ),
-                    ),
-                    secondaryBackground: Container(
-                      color: Colors.red,
-                      child: Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: const <Widget>[
-                            Icon(Icons.delete, color: Colors.white),
-                            Text('Hapus',
-                                style: TextStyle(color: Colors.white)),
-                          ],
-                        ),
-                      ),
-                    ),
-                    onDismissed: (DismissDirection direction) {
-                      if (direction == DismissDirection.startToEnd) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const EditPage()),
-                        );
-                      } else {}
-                    },
-                    child: Column(
-                      children: [
-                        ListTile(
-                          title: Text('data'),
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ))
-            ]),
-          ),
-        ));
-  }
-
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    throw UnimplementedError();
+                  Expanded(
+                    child: ListView.builder(
+                        itemCount: listCategory.length,
+                        itemBuilder: (context, index) {
+                          var kategori = listCategory[index];
+                          return Dismissible(
+                              key: UniqueKey(),
+                              background: Container(
+                                color: Colors.blue,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15),
+                                  child: Row(
+                                    children: const <Widget>[
+                                      Icon(Icons.favorite, color: Colors.white),
+                                      Text('Edit',
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              secondaryBackground: Container(
+                                color: Colors.red,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: const <Widget>[
+                                      Icon(Icons.delete, color: Colors.white),
+                                      Text('Hapus',
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              onDismissed: (DismissDirection direction) {
+                                if (direction == DismissDirection.startToEnd) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => const EditPage()),
+                                  );
+                                } else {}
+                              },
+                              child: ListTile(
+                                  title: Text(
+                                kategori.name,
+                                style: const TextStyle(
+                                    fontFamily: 'Nunito',
+                                    fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.center,
+                              )));
+                        }),
+                  ),
+                ]))));
   }
 }
 
-class MyListView extends StatelessWidget {
-  const MyListView({super.key});
+//   @override
+//   State<StatefulWidget> createState() {
+//     // TODO: implement createState
+//     throw UnimplementedError();
+//   }
+// }
 
-  @override
-  Widget build(BuildContext context) {
-    return new Container(
-      padding: new EdgeInsets.all(20.0),
-      child: new Center(
-        child: new Column(
-          children: <Widget>[
-            new Image(
-                image: NetworkImage(
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQM8iiF75ThILLJrv00dUwloLDx34isk8A1Ww&usqp=CAU"),
-                width: 200),
-            new Text(
-              "Flutter",
-              style: new TextStyle(fontSize: 20.0),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
+// class MyListView extends StatelessWidget {
+//   const MyListView({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return new Container(
+//       padding: new EdgeInsets.all(20.0),
+//       child: new Center(
+//         child: new Column(
+//           children: <Widget>[
+//             new Image(
+//                 image: NetworkImage(
+//                     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQM8iiF75ThILLJrv00dUwloLDx34isk8A1Ww&usqp=CAU"),
+//                 width: 200),
+//             new Text(
+//               "Flutter",
+//               style: new TextStyle(fontSize: 20.0),
+//             )
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

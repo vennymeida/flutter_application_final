@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: {
         "/": (context) => const Login(),
-        "/list": (context) => const List(),
+        "/list": (context) => const ListKategori(),
       },
       title: 'Flutter Demo',
       theme: ThemeData(

@@ -18,7 +18,7 @@ class _EditPage extends State<EditPage> {
     return MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.lightGreen,
         ),
         home: Scaffold(
           resizeToAvoidBottomInset: false,
@@ -55,7 +55,7 @@ class _EditPage extends State<EditPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) {
-                          return List();
+                          return ListKategori();
                         }),
                       );
                     },
