@@ -9,7 +9,10 @@ import 'model/category_model.dart';
 import 'service/crud_helper.dart';
 
 class ListKategori extends StatefulWidget {
-  const ListKategori({super.key});
+  // const ListKategori({super.key});
+  const ListKategori({
+    super.key,
+  });
 
   @override
   State<ListKategori> createState() => _ListKategoriState();
@@ -197,17 +200,30 @@ class _ListKategoriState extends State<ListKategori> {
                                   ),
                                 ),
                               ),
-                              onDismissed: (DismissDirection direction) {
+                              // onDismissed: (DismissDirection direction) {
+                              onDismissed: (DismissDirection direction) async {
                                 if (direction == DismissDirection.startToEnd) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        // builder: (context) => const EditPage()),
-                                        builder: (context) => EditPage(
-                                              category: categories[index],
-                                            )),
-                                  );
-                                } else {}
+                                  //   Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         // builder: (context) => const EditPage()),
+                                  //         builder: (context) => EditPage(
+                                  //               category: categories[index],
+                                  //             )),
+                                  //   );
+                                  // } else {}
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return EditPage(
+                                            category: categories[index]);
+                                      });
+                                } else {
+                                  final response = await CrudHelper()
+                                      .deleteCategori(categories[index]);
+                                  print(response.body);
+                                  // Navigator.pushNamed(context, "/main");
+                                }
                               },
                               // child: ListTile(
                               //     title: Text(
