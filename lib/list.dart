@@ -6,6 +6,7 @@ import 'package:flutter_application_final/service/loginservice.dart';
 import 'package:flutter_application_final/login.dart';
 import 'dart:convert';
 import 'model/category_model.dart';
+import 'service/crud_helper.dart';
 
 class ListKategori extends StatefulWidget {
   const ListKategori({super.key});
@@ -42,23 +43,69 @@ class _ListKategoriState extends State<ListKategori> {
     final name = txtAddCategory.text;
     final response = await CRUD().addCategory(name);
     print(response.body);
-    Navigator.pushNamed(context, "/main");
+    // Navigator.pushNamed(context, "/main");
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const ListKategori()),
+    );
+  }
+
+  addMoreData() {
+    CrudHelper.getCategories(currentPage.toString()).then((resultList) {
+      setState(() {
+        categories.addAll(resultList[0]);
+        lastPage = resultList[1];
+        isLoading = false;
+      });
+    });
   }
 
   @override
   void initState() {
     super.initState();
-    getKategori();
+    // getKategori();
+    scrollController.addListener(() {
+      if (scrollController.offset ==
+          scrollController.position.maxScrollExtent) {
+        if (currentPage < lastPage) {
+          setState(() {
+            isLoading = true;
+            currentPage++;
+            addMoreData();
+          });
+        }
+      }
+    });
+
+    fetchData();
   }
 
-  getKategori() async {
-    final response = await AuthServices().getKategori();
-    var dataResponse = jsonDecode(response.body);
-    setState(() {
-      var listRespon = dataResponse['data'];
-      for (var i = 0; i < listRespon.length; i++) {
-        listCategory.add(Category.fromJson(listRespon[i]));
-      }
+  List<String> user = [];
+  List<Category> categories = [];
+  int selectedIndex = 0;
+  int currentPage = 1;
+  int lastPage = 0;
+  bool isLoading = true;
+  final ScrollController scrollController = ScrollController();
+  final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
+
+  // getKategori() async {
+  //   final response = await AuthServices().getKategori();
+  //   var dataResponse = jsonDecode(response.body);
+  //   setState(() {
+  //     var listRespon = dataResponse['data'];
+  //     for (var i = 0; i < listRespon.length; i++) {
+  //       listCategory.add(Category.fromJson(listRespon[i]));
+  //     }
+  //   });
+  // }
+  fetchData() {
+    CrudHelper.getCategories(currentPage.toString()).then((resultList) {
+      setState(() {
+        categories = resultList[0];
+        lastPage = resultList[1];
+        isLoading = false;
+      });
     });
   }
 
@@ -113,9 +160,12 @@ class _ListKategoriState extends State<ListKategori> {
                   ),
                   Expanded(
                     child: ListView.builder(
-                        itemCount: listCategory.length,
+                        // itemCount: listCategory.length,
+                        controller: scrollController,
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        itemCount: categories.length,
                         itemBuilder: (context, index) {
-                          var kategori = listCategory[index];
+                          // var kategori = listCategory[index];
                           return Dismissible(
                               key: UniqueKey(),
                               background: Container(
@@ -156,14 +206,25 @@ class _ListKategoriState extends State<ListKategori> {
                                   );
                                 } else {}
                               },
-                              child: ListTile(
-                                  title: Text(
-                                kategori.name,
-                                style: const TextStyle(
-                                    fontFamily: 'Nunito',
-                                    fontWeight: FontWeight.bold),
-                                textAlign: TextAlign.center,
-                              )));
+                              // child: ListTile(
+                              //     title: Text(
+                              //   kategori.name,
+                              //   style: const TextStyle(
+                              //       fontFamily: 'Nunito',
+                              //       fontWeight: FontWeight.bold),
+                              //   textAlign: TextAlign.center,
+                              // )));
+                              child: Container(
+                                height: 100,
+                                child: ListTile(
+                                    title: Text(
+                                  categories[index].name,
+                                  style: const TextStyle(
+                                      fontFamily: 'Nunito',
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
+                                )),
+                              ));
                         }),
                   ),
                 ]))));
