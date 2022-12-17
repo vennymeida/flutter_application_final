@@ -202,7 +202,10 @@ class _ListKategoriState extends State<ListKategori> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => const EditPage()),
+                                        // builder: (context) => const EditPage()),
+                                        builder: (context) => EditPage(
+                                              category: categories[index],
+                                            )),
                                   );
                                 } else {}
                               },

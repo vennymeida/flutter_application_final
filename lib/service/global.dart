@@ -14,6 +14,20 @@ errorSnackBar(BuildContext context, String text) {
   ));
 }
 
+_save(String key, String data) async {
+  final prefs = await SharedPreferences.getInstance();
+  //const key = 'token';
+  //final value = token;
+  prefs.setString(key, data);
+}
+
+read() async {
+  final prefs = await SharedPreferences.getInstance();
+  const key = 'token';
+  final value = prefs.get(key) ?? 0;
+  print('read : $value');
+}
+
 class CRUD {
   Future<Response> addCategory(String name) async {
     final url = Uri.parse(baseUrl + 'category');
